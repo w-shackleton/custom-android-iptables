@@ -1,10 +1,12 @@
 #!/bin/sh
+# The ugliest of hacks. ndk-build duplicates these so we extract unique entries!
+EXTS=$(echo "$1" | tr ' ' "\n" | sort -u | tr "\n" ' ')
 echo ""
-for i in $1; do
+for i in $EXTS; do
 	echo "extern void ${i}_init(void);";
 done;
 echo "void init_extensions(void) {"
-for i in $1; do
+for i in $EXTS; do
 	echo "	${i}_init();";
 done
 echo "}"
